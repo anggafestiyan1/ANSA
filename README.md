@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ANSA
 
-## Getting Started
+Catat pengeluaran keluarga secepat ngomong. PWA: ketik atau ucapkan `15k kopi`, `b 50rb sayur` (Bersama),
+lalu lihat dashboard bulanan berdua (suami dan istri, dompet bersama).
 
-First, run the development server:
+Stack: Next.js 16 (App Router) + TypeScript, PostgreSQL lewat `pg` (SQL langsung), Vitest. Hosting: Vercel + Neon.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Struktur
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Path | Isi |
+|---|---|
+| `lib/parse.ts` | Membaca input ketik/suara jadi nominal + catatan + Bersama |
+| `lib/expenses.ts` | Semua query pengeluaran (catat, batal, total, dashboard) |
+| `lib/session.ts`, `lib/token.ts` | Sesi login: cookie httpOnly bertanda tangan HMAC |
+| `lib/password.ts` | Hash password scrypt |
+| `lib/month.ts` | Bulan/hari dalam jam Asia/Jakarta |
+| `app/(app)/` | Layar Catat (`/`) dan Dashboard (`/dashboard`) |
+| `app/login/` | Login dan logout |
+| `db/schema.sql` | Skema database (aman dijalankan ulang) |
+| `scripts/` | `migrate.mts` (buat tabel), `create-user.mts` (buat akun / ganti password) |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Setup lokal
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. `npm install`
+2. Salin `.env.example` jadi `.env.local`, isi `DATABASE_URL` dan `SESSION_SECRET`.
+3. `npm run db:migrate`
+4. `npm run user:create` (sekali per akun; password diketik di terminal, tidak tampil)
+5. `npm run dev`
 
-## Learn More
+## Tes
 
-To learn more about Next.js, take a look at the following resources:
+- `npm test`: unit test (parser, token, password, bulan).
+- Uji integrasi database ikut jalan kalau `TEST_DATABASE_URL` diisi (memakai schema sementara lalu dihapus):
+  `TEST_DATABASE_URL=postgres://... npm test`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy (Vercel + Neon)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Neon: buat project region Singapore, salin connection string **Pooled**.
+2. Dari laptop, dengan `DATABASE_URL` Neon di `.env.local`: `npm run db:migrate`, lalu `npm run user:create` untuk
+   tiap akun.
+3. Push repo ke GitHub, lalu di Vercel: Import project, region fungsi Singapore (`sin1`), isi Environment Variables
+   `DATABASE_URL` dan `SESSION_SECRET` (nilai baru, minimal 32 karakter).
+4. Buka URL Vercel di HP, login, lalu "Add to Home Screen".
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Ganti `SESSION_SECRET` = semua perangkat keluar dan harus login ulang.

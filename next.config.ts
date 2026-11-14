@@ -1,9 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Semua halaman per pengguna (cookie sesi), jadi tanpa Cache Components: render dinamis biasa.
   turbopack: {
     rules: {
       "*.css": {
