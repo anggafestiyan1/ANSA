@@ -24,6 +24,13 @@ describe('parse', () => {
     ['seribu', 1000, '', false],
     ['sejuta', 1000000, '', false],
     ['seribu lima ratus', 1500, '', false],
+    ['lima belas enam ratus', 15600, '', false],
+    ['lima belas enam ratus kopi', 15600, 'kopi', false],
+    ['dua puluh lima lima ratus', 25500, '', false],
+    ['lima belas enam ratus lima puluh', 15650, '', false],
+    ['seratus dua puluh', 120000, '', false],
+    ['sejuta lima ratus ribu', 1500000, '', false],
+    ['sejuta lima ratus', 1000500, '', false], // harfiah, keputusan user 2026-11-16
     ['1,5jt kontrakan', 1500000, 'kontrakan', false],
     ['1,5 juta', 1500000, '', false],
     ['satu setengah juta kulkas', 1500000, 'kulkas', false],

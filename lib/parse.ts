@@ -40,12 +40,22 @@ function value(run: string[]): number {
     if (/^\d/.test(t)) {
       // "15.000" = pemisah ribuan; "1,5" = desimal
       group += /^\d{1,3}([.,]\d{3})+$/.test(t) ? Number(t.replace(/[.,]/g, '')) : Number(t.replace(',', '.'));
-    } else if (Object.hasOwn(DIG, t)) digit = DIG[t];
+    } else if (Object.hasOwn(DIG, t)) {
+      group += digit; // dua kata angka berurutan: "dua puluh lima | lima ratus"
+      digit = DIG[t];
+    }
     else if (t === 'setengah') { group += digit + 0.5; digit = 0; }
     else if (t === 'belas') { group += digit + 10; digit = 0; }
     // "dua puluh" (kata) atau "2 puluh" (angka hasil suara)
     else if (t === 'puluh') { if (digit) group += digit * 10; else group *= 10; digit = 0; }
-    else if (t === 'ratus') { if (digit) group += digit * 100; else group *= 100; digit = 0; }
+    else if (t === 'ratus') {
+      if (digit) {
+        // "lima belas enam ratus" = 15.600: angka sebelum ratusan berarti ribuan walau tanpa kata "ribu"
+        if (group) { total += group * 1e3; group = 0; }
+        group += digit * 100;
+      } else group *= 100;
+      digit = 0;
+    }
     else if (t === 'ribu' || t === 'rb' || t === 'k') { total += (group + digit) * 1e3; group = digit = 0; }
     else if (t === 'juta' || t === 'jt') { total += (group + digit) * 1e6; group = digit = 0; }
   }
