@@ -1,16 +1,60 @@
+<div align="center">
+
+<img src="docs/logo.png" width="88" alt="Logo ANSA" />
+
 # ANSA
 
-Catat pengeluaran keluarga secepat ngomong. Buka di HP, ketik atau ucapkan `15k kopi` atau `b 50rb sayur`, selesai.
-Suami dan istri punya akun sendiri, tapi dompetnya satu: dashboard bulanan menampilkan pengeluaran berdua.
+**Catat pengeluaran keluarga secepat ngomong.**
 
-## Cara pakai
+Buka di HP, ketik atau ucapkan `15k kopi` atau `b 50rb sayur`, selesai.<br/>
+Suami dan istri punya akun sendiri, tapi dompetnya satu.
+
+![Next.js 16](https://img.shields.io/badge/Next.js-16-000?logo=nextdotjs&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-4169E1?logo=postgresql&logoColor=white) ![PWA](https://img.shields.io/badge/PWA-siap%20pasang-5A0FC8?logo=pwa&logoColor=white) ![Vercel](https://img.shields.io/badge/deploy-Vercel-000?logo=vercel&logoColor=white) ![Gratis](https://img.shields.io/badge/biaya-Rp0-22C55E)
+
+<img src="docs/preview.png" alt="Tampilan ANSA: layar Catat, Dashboard, dan tema Pink" />
+
+</div>
+
+---
+
+## ✨ Fitur
+
+| Fitur | Keterangan |
+|---|---|
+| 💬 **Catat gaya chat** | Ketik `15k kopi`, langsung jadi Rp15.000 dengan pratinjau sebelum dikirim. |
+| 🎙️ **Cukup ngomong** | Tekan mic, bilang *"lima belas enam ratus kopi"*, tercatat Rp15.600. |
+| 👨‍👩‍👧 **Dompet bersama** | Akun suami & istri terpisah, dashboard gabungan. Awali `b` / `belanja` untuk pengeluaran **Bersama**. |
+| ↩️ **Batal & Urungkan** | Salah catat? Batal satu ketuk, total langsung kembali. Salah pencet? Urungkan. |
+| 📊 **Dashboard bulanan** | Total, porsi Suami/Istri/Bersama, grafik per hari, saring per pemilik. |
+| 🎨 **4 tema** | Navy, Gelap, Terang, dan Pink yang tombolnya bulat membal. |
+| 📱 **Seperti aplikasi** | Pasang ke layar utama HP (PWA), tanpa Play Store / App Store. |
+
+## 📸 Tampilan
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/catat-ketik.png" width="220" alt="Layar Catat dengan pratinjau Bersama" /><br/><sub><b>Catat</b> · pratinjau saat mengetik</sub></td>
+    <td align="center"><img src="docs/screenshots/dashboard-navy.png" width="220" alt="Dashboard bulanan tema Navy" /><br/><sub><b>Dashboard</b> · tema Navy</sub></td>
+    <td align="center"><img src="docs/screenshots/catat-pink.png" width="220" alt="Layar Catat tema Pink" /><br/><sub><b>Catat</b> · tema Pink</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/catat-terang.png" width="220" alt="Layar Catat tema Terang" /><br/><sub><b>Catat</b> · tema Terang</sub></td>
+    <td align="center"><img src="docs/screenshots/dashboard-gelap.png" width="220" alt="Dashboard tema Gelap" /><br/><sub><b>Dashboard</b> · tema Gelap</sub></td>
+    <td align="center"><img src="docs/screenshots/login.png" width="220" alt="Halaman login" /><br/><sub><b>Masuk</b></sub></td>
+  </tr>
+</table>
+
+<sub>Semua data di gambar adalah data rekaan.</sub>
+
+## 🗣️ Cara pakai
 
 | Ketik / ucapkan | Tercatat |
 |---|---|
 | `15k kopi`, `15rb kopi`, `15 ribu kopi`, `15.000 kopi` | Rp15.000, catatan "kopi" |
 | `15` (angka di bawah 1.000 tanpa satuan) | Rp15.000 (dianggap ribuan) |
 | `lima belas ribu`, `bensin dua puluh lima ribu` | Rp15.000 / Rp25.000 (catatan boleh di depan) |
-| `1,5jt kontrakan`, `satu setengah juta` | Rp1.500.000 |
+| `lima belas enam ratus` | Rp15.600 |
+| `1,5jt kontrakan`, `satu setengah juta`, `sejuta lima ratus ribu` | Rp1.500.000 |
 | `b 50rb sayur`, `belanja 50.000 sayur` | **Bersama** Rp50.000 (bukan milik suami/istri) |
 
 - Tombol **mic**: tekan, ucapkan nominal + catatan, otomatis tercatat.
@@ -20,7 +64,7 @@ Suami dan istri punya akun sendiri, tapi dompetnya satu: dashboard bulanan menam
 
 ---
 
-## Pasang dari nol (sekali saja, ±30 menit)
+## 🚀 Pasang dari nol (sekali saja, ±30 menit)
 
 Setiap keluarga memasang ANSA miliknya sendiri: database, akun, dan alamat web sendiri. Data kamu tidak tercampur
 dengan pemakai lain, dan pemilik repo ini tidak bisa melihatnya.
@@ -42,7 +86,7 @@ Semua layanan di bawah ini gratis. Ringkasnya ada 5 tahap:
 Perintah di bawah ditulis untuk **PowerShell** (Windows). Di macOS/Linux pakai **Terminal**; perintah yang beda
 ditandai.
 
-### Tahap 1 — Kode dari GitHub
+### 1️⃣ Tahap 1 — Kode dari GitHub
 
 1. Buka https://github.com/anggafestiyan1/ANSA, klik **Fork** → **Create fork**.
    Sekarang ada salinan di akunmu: `https://github.com/<akun-kamu>/ANSA`. Boleh dibuat Private
@@ -56,7 +100,7 @@ ditandai.
 
 Pemilik repo yang sudah punya kodenya di laptop: lewati tahap ini.
 
-### Tahap 2 — Database di Neon
+### 2️⃣ Tahap 2 — Database di Neon
 
 1. Buka https://neon.tech, lalu **Sign up** (pakai Google atau GitHub).
 2. Klik **Create project**:
@@ -67,7 +111,7 @@ Pemilik repo yang sudah punya kodenya di laptop: lewati tahap ini.
 4. Nyalakan **Connection pooling**. Salin teks yang muncul (diawali `postgresql://`, ada kata `-pooler`).
    Ini **connection string**: kunci masuk ke database. Jangan dibagikan ke siapa pun.
 
-### Tahap 3 — Pengaturan di laptop
+### 3️⃣ Tahap 3 — Pengaturan di laptop
 
 Buka **PowerShell** di folder ANSA (hasil Tahap 1), lalu jalankan satu per satu:
 
@@ -128,7 +172,7 @@ Buka **PowerShell** di folder ANSA (hasil Tahap 1), lalu jalankan satu per satu:
 
    Buka http://localhost:3000, login, coba catat. Tekan `Ctrl+C` di PowerShell untuk berhenti.
 
-### Tahap 4 — Online di Vercel
+### 4️⃣ Tahap 4 — Online di Vercel
 
 1. Buka https://vercel.com, lalu **Sign up** pakai **GitHub**.
 2. Klik **Add New… → Project**, cari repo `ANSA` milikmu (hasil fork), klik **Import**.
@@ -146,7 +190,7 @@ Buka **PowerShell** di folder ANSA (hasil Tahap 1), lalu jalankan satu per satu:
 
 Setiap ada perubahan kode yang di-push ke branch `develop`, Vercel otomatis memperbarui ANSA.
 
-### Tahap 5 — Pasang di HP
+### 5️⃣ Tahap 5 — Pasang di HP
 
 1. Buka alamat ANSA di HP, lalu login.
 2. Pasang ke layar utama:
@@ -157,7 +201,7 @@ Setiap ada perubahan kode yang di-push ke branch `develop`, Vercel otomatis memp
 
 ---
 
-## Kalau ada masalah
+## 🧯 Kalau ada masalah
 
 | Gejala | Penyebab / solusi |
 |---|---|
@@ -171,7 +215,7 @@ Setiap ada perubahan kode yang di-push ke branch `develop`, Vercel otomatis memp
 
 ---
 
-## Untuk developer
+## 🛠️ Untuk developer
 
 Stack: Next.js 16 (App Router) + TypeScript, PostgreSQL lewat `pg` (SQL langsung), Vitest.
 
