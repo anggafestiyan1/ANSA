@@ -22,18 +22,41 @@ Suami dan istri punya akun sendiri, tapi dompetnya satu: dashboard bulanan menam
 
 ## Pasang dari nol (sekali saja, ±30 menit)
 
-Yang dibutuhkan: laptop dengan [Node.js](https://nodejs.org) 24 (LTS) atau lebih baru, akun Google atau GitHub.
-Semua layanan di bawah ini gratis.
+Setiap keluarga memasang ANSA miliknya sendiri: database, akun, dan alamat web sendiri. Data kamu tidak tercampur
+dengan pemakai lain, dan pemilik repo ini tidak bisa melihatnya.
 
-Ringkasnya ada 5 tahap:
+Yang dibutuhkan:
 
-1. **Neon**: tempat menyimpan data.
-2. **Laptop**: isi pengaturan, buat tabel dan akun.
-3. **GitHub**: tempat menyimpan kode.
+- Laptop (Windows, macOS, atau Linux) dengan [Node.js](https://nodejs.org) 24 (LTS) atau lebih baru dan
+  [Git](https://git-scm.com).
+- Akun [GitHub](https://github.com). Neon dan Vercel bisa didaftar pakai akun GitHub yang sama.
+
+Semua layanan di bawah ini gratis. Ringkasnya ada 5 tahap:
+
+1. **GitHub**: salin (fork) kode ANSA ke akunmu, lalu unduh ke laptop.
+2. **Neon**: tempat menyimpan data.
+3. **Laptop**: isi pengaturan, buat tabel dan akun.
 4. **Vercel**: membuat ANSA bisa dibuka dari internet.
 5. **HP**: pasang ke layar utama.
 
-### Tahap 1 — Database di Neon
+Perintah di bawah ditulis untuk **PowerShell** (Windows). Di macOS/Linux pakai **Terminal**; perintah yang beda
+ditandai.
+
+### Tahap 1 — Kode dari GitHub
+
+1. Buka https://github.com/anggafestiyan1/ANSA, klik **Fork** → **Create fork**.
+   Sekarang ada salinan di akunmu: `https://github.com/<akun-kamu>/ANSA`. Boleh dibuat Private
+   (**Settings → General → Danger Zone → Change visibility**).
+2. Unduh ke laptop (ganti `<akun-kamu>`), lalu masuk ke foldernya:
+
+   ```powershell
+   git clone https://github.com/<akun-kamu>/ANSA.git
+   cd ANSA
+   ```
+
+Pemilik repo yang sudah punya kodenya di laptop: lewati tahap ini.
+
+### Tahap 2 — Database di Neon
 
 1. Buka https://neon.tech, lalu **Sign up** (pakai Google atau GitHub).
 2. Klik **Create project**:
@@ -44,18 +67,17 @@ Ringkasnya ada 5 tahap:
 4. Nyalakan **Connection pooling**. Salin teks yang muncul (diawali `postgresql://`, ada kata `-pooler`).
    Ini **connection string**: kunci masuk ke database. Jangan dibagikan ke siapa pun.
 
-### Tahap 2 — Pengaturan di laptop
+### Tahap 3 — Pengaturan di laptop
 
-Buka **PowerShell**, lalu jalankan satu per satu:
+Buka **PowerShell** di folder ANSA (hasil Tahap 1), lalu jalankan satu per satu:
 
-1. Masuk ke folder ANSA dan pasang paket:
+1. Pasang paket:
 
    ```powershell
-   cd C:\Git\ANSA
    npm install
    ```
 
-2. Buat file pengaturan dari contohnya:
+2. Buat file pengaturan dari contohnya (macOS/Linux: `cp .env.example .env.local`):
 
    ```powershell
    Copy-Item .env.example .env.local
@@ -67,7 +89,7 @@ Buka **PowerShell**, lalu jalankan satu per satu:
    node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
    ```
 
-4. Buka file pengaturan:
+4. Buka file pengaturan (macOS/Linux: `nano .env.local`):
 
    ```powershell
    notepad .env.local
@@ -76,11 +98,12 @@ Buka **PowerShell**, lalu jalankan satu per satu:
    Isi dua baris ini (tempel di belakang tanda `=`, tanpa spasi), lalu **Save**:
 
    ```
-   DATABASE_URL=postgresql://...connection string dari Tahap 1...
+   DATABASE_URL=postgresql://...connection string dari Tahap 2...
    SESSION_SECRET=...hasil langkah 3...
    ```
 
-   File `.env.local` tidak ikut ke GitHub, jadi isinya aman di laptop.
+   `.env.local` sudah dikecualikan di `.gitignore`, jadi tidak pernah ikut ter-commit atau ter-push ke GitHub.
+   Jangan menulis connection string atau kunci rahasia di file lain.
 
 5. Buat tabel di database. Berhasil kalau muncul `Skema siap.`:
 
@@ -105,30 +128,16 @@ Buka **PowerShell**, lalu jalankan satu per satu:
 
    Buka http://localhost:3000, login, coba catat. Tekan `Ctrl+C` di PowerShell untuk berhenti.
 
-### Tahap 3 — Kode ke GitHub
-
-1. Buka https://github.com/new:
-   - Repository name: `ansa`
-   - Pilih **Private**
-   - **Jangan** centang "Add a README"
-   - Klik **Create repository**.
-2. Salin alamat repo (mis. `https://github.com/<akun-kamu>/ansa.git`), lalu di PowerShell:
-
-   ```powershell
-   git remote add origin https://github.com/<akun-kamu>/ansa.git
-   git push -u origin develop
-   ```
-
 ### Tahap 4 — Online di Vercel
 
 1. Buka https://vercel.com, lalu **Sign up** pakai **GitHub**.
-2. Klik **Add New… → Project**, cari repo `ansa`, klik **Import**.
+2. Klik **Add New… → Project**, cari repo `ANSA` milikmu (hasil fork), klik **Import**.
 3. Buka bagian **Environment Variables**, tambahkan dua baris, isinya sama persis dengan `.env.local`:
 
    | Key | Value |
    |---|---|
    | `DATABASE_URL` | connection string Neon |
-   | `SESSION_SECRET` | kunci rahasia dari Tahap 2 |
+   | `SESSION_SECRET` | kunci rahasia dari Tahap 3 |
 
 4. Klik **Deploy**, tunggu 1–2 menit sampai muncul "Congratulations".
 5. Supaya cepat dari Indonesia: **Settings → Functions → Function Region** → pilih **Singapore (sin1)** → Save.
@@ -152,8 +161,8 @@ Setiap ada perubahan kode yang di-push ke branch `develop`, Vercel otomatis memp
 
 | Gejala | Penyebab / solusi |
 |---|---|
-| `DATABASE_URL belum diisi di .env.local` | File belum dibuat atau baris kosong. Ulangi Tahap 2 langkah 2–4. |
-| `password authentication failed` / `getaddrinfo` | Connection string salah salin. Salin ulang dari Neon (Tahap 1 langkah 3–4). |
+| `DATABASE_URL belum diisi di .env.local` | File belum dibuat atau baris kosong. Ulangi Tahap 3 langkah 2–4. |
+| `password authentication failed` / `getaddrinfo` | Connection string salah salin. Salin ulang dari Neon (Tahap 2 langkah 3–4). |
 | Halaman Vercel error 500 setelah deploy | Environment Variables belum diisi atau salah. Perbaiki di Vercel → Settings → Environment Variables, lalu Redeploy. |
 | `SESSION_SECRET belum diisi` | Isi `SESSION_SECRET` (minimal 32 karakter) di `.env.local` dan di Vercel. |
 | Lupa password | `npm run user:create` dengan email yang sama. |
